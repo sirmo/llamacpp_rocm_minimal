@@ -7,6 +7,16 @@ The default config targets Strix Halo / Ryzen AI Max 365. But you could try buil
 ---
 
 ## Quick Start
+
+```sh
+docker pull introprose/llamacpp_rocm_minimal:latest
+```
+```sh
+export MODEL_BASE_PATH=/models
+```
+
+### Clone the scripts
+
 ```sh
 git clone git@github.com:sirmo/llamacpp_rocm_minimal.git
 ```
@@ -15,12 +25,6 @@ git clone git@github.com:sirmo/llamacpp_rocm_minimal.git
 cd llamacpp_rocm_minimal
 ```
 
-```sh
-docker pull introprose/llamacpp_rocm_minimal:latest
-```
-```sh
-export MODEL_BASE_PATH=/models
-```
 
 1. Download the model file `openai_gpt-oss-20b-MXFP4.gguf` from:
    https://huggingface.co/bartowski/openai_gpt-oss-20b-GGUF-MXFP4-Experimental/resolve/main/openai_gpt-oss-20b-MXFP4.gguf

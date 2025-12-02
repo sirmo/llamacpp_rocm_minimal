@@ -52,7 +52,7 @@ make run gpt-oss-120B
 
 See directory `run/` which has some sample run scripts for different models. You should use them as exampels for running your own models. gpt-oss and minimax-m2 models run well on Strix Halo.
 
-As you add your own specific model run scripts you can list them running `make list`.
+As you add your own specific model run scripts you can list them by running `make list`.
 
 
 ## Build Your Own Docker Image

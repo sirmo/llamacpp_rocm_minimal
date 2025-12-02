@@ -1,0 +1,53 @@
+{%- if messages[0]['role'] == 'system' -%}
+    {%- set system_message = messages[0]['content'] -%}
+    {%- set loop_messages = messages[1:] -%}
+{%- else -%}
+    {%- set system_message = "You are OpenCode, an autonomous coding agent." -%}
+    {%- set loop_messages = messages -%}
+{%- endif -%}
+
+{{- '<|im_start|>system\n' -}}
+{{- system_message -}}
+
+{%- if tools is defined and tools|length > 0 -%}
+    {{- '\n\n# TOOL INSTRUCTIONS\n' -}}
+    {{- 'You have access to the following tools:\n' -}}
+    
+    {%- for tool in tools -%}
+        {%- set tf = tool.function -%}
+        {{- '\n## ' + tf.name + '\n' -}}
+        {{- 'Description: ' + tf.description + '\n' -}}
+        {# Pretty print the parameters so the model sees the structure #}
+        {{- 'Schema: ' + tf.parameters|tojson(indent=2) + '\n' -}}
+    {%- endfor -%}
+
+    {{- '\n# FORMAT\n' -}}
+    {{- 'To use a tool, output ONLY a JSON object matching this structure:\n' -}}
+    {{- '{"name": "tool_name", "arguments": {"param": "value"}}\n' -}}
+{%- endif -%}
+{{- '<|im_end|>\n' -}}
+
+{%- for message in loop_messages -%}
+    {{- '<|im_start|>' + message.role + '\n' -}}
+    
+    {%- if message.content -%}
+        {{- message.content -}}
+    {%- endif -%}
+    
+    {%- if message.tool_calls -%}
+        {%- for tool_call in message.tool_calls -%}
+            {%- if tool_call.function is defined -%}
+                {%- set tc = tool_call.function -%}
+                {{- '\n' -}}
+                {# Ensure arguments are output as a string if prompt injects them weirdly #}
+                {{- '{"name": "' + tc.name + '", "arguments": ' + tc.arguments|tojson + '}' -}}
+            {%- endif -%}
+        {%- endfor -%}
+    {%- endif -%}
+    
+    {{- '<|im_end|>\n' -}}
+{%- endfor -%}
+
+{%- if add_generation_prompt -%}
+    {{- '<|im_start|>assistant\n' -}}
+{%- endif -%}

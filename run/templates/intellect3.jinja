@@ -1,0 +1,23 @@
+{% macro render_extra_keys(json_dict, handled_keys) %}
+    {%- if json_dict is mapping %}
+        {%- for json_key in json_dict if json_key not in handled_keys %}
+            {%- if json_dict[json_key] is string %}
+
+
+                {{-'\n<' ~ json_key ~ '>' ~ (json_dict[json_key] | string) ~ '</' ~ json_key ~ '>' }}
+            {%- else %}
+                {{- '\n<' ~ json_key ~ '>' ~ (json_dict[json_key] | tojson) ~ '</' ~ json_key ~ '>' }}
+            {%- endif %}
+        {%- endfor %}
+    {%- endif %}
+            {%- if tool_call.arguments is defined %}
+                {%- for args_name, args_value in tool_call.arguments|items %}
+                    {{- '<parameter=' + args_name + '>\n' }}
+                    {%- if args_value is string %}
+                        {{- args_value | string }}
+                    {%- else %}
+                        {{- args_value | tojson }}
+                    {%- endif %}
+                    {{- '\n</parameter>\n' }}
+                {%- endfor %}
+            {%- endif %}

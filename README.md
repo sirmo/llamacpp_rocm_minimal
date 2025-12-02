@@ -25,6 +25,7 @@ git clone git@github.com:sirmo/llamacpp_rocm_minimal.git
 cd llamacpp_rocm_minimal
 ```
 
+### gpt-oss-20B 
 
 1. Download the model file `openai_gpt-oss-20b-MXFP4.gguf` from:
    https://huggingface.co/bartowski/openai_gpt-oss-20b-GGUF-MXFP4-Experimental/resolve/main/openai_gpt-oss-20b-MXFP4.gguf

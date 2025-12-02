@@ -8,6 +8,11 @@ The default config targets Strix Halo / Ryzen AI Max 365. But you could try buil
 
 ## Quick Start
 ```sh
+git clone git@github.com:sirmo/llamacpp_rocm_minimal.git
+cd llamacpp_rocm_minimal
+```
+
+```sh
 docker pull introprose/llamacpp_rocm_minimal:latest
 ```
 ```sh

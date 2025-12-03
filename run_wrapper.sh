@@ -26,7 +26,7 @@ MODEL_BASE_PATH="${MODEL_BASE_PATH:-/models}"
 if [[ "${USE_ORIGINAL_IMAGE:-0}" == "1" ]]; then
   IMAGE_NAME="llama-cpp-${ROCM_GPU_ARCH}"
 else
-  IMAGE_NAME="llama-cpp-${ROCM_GPU_ARCH}.minimal"
+  IMAGE_NAME="llamacpp_rocm_${ROCM_GPU_ARCH}.minimal"
 fi
 
 # Path inside the container where run scripts are mounted (read‑only)

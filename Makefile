@@ -119,7 +119,7 @@ run: ## Run model script via wrapper (usage: make run gpt-oss-120B)
 		exit 1; \
 	fi
 	@SCRIPT_NAME="$(filter-out $@,$(MAKECMDGOALS))"; \
-	MODEL_BASE_PATH=$(MODEL_BASE_PATH) ./run_wrapper.sh $$SCRIPT_NAME
+	MODEL_BASE_PATH=$(MODEL_BASE_PATH) ROCM_GPU_ARCH=$(ROCM_GPU_ARCH) ./run_wrapper.sh $$SCRIPT_NAME
 
 # Catch-all target to prevent make from complaining about unknown targets
 %:

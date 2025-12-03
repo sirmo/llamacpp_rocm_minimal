@@ -27,6 +27,7 @@ build: ## Build the Docker image
 	docker build \
 		--build-arg ROCM_VERSION=$(ROCM_VERSION) \
 		--build-arg UBUNTU_VERSION=$(UBUNTU_VERSION) \
+		--build-arg ROCM_GPU_ARCH=$(ROCM_GPU_ARCH) \
 		-t $(IMAGE_NAME) .
 
 minimal: ## Create minimal image (~1.4GB) using Dockerfile.minimal

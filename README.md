@@ -110,6 +110,20 @@ Available targets:
   all                  Build, create minimal image, save it
 ```
 
+# Gotchas
+
+Location of the runfiles for the ROCm installer is approximately here:
+
+https://repo.radeon.com/rocm/installer/rocm-runfile-installer/rocm-rel-7.1/ubuntu/22.04/
+
+These versions change so this link may not work in the future. But you can always navigate to the latest version by backtracking.
+
+Over time:
+
+- `ROCM_VERSION` and `ROCM_PATH_VERSION` will have to be updated
+
+- Dockerfile may need updates as new versions of ROCm come out
+
 ---
 
 ## Contributing & License

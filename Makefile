@@ -1,6 +1,9 @@
 # Makefile for llama-cpp-gfx1151 Docker image management
 ROCM_GPU_ARCH ?= gfx1151
 
+# Detect if NO_CACHE goal is passed
+NO_CACHE := $(filter NO_CACHE,$(MAKECMDGOALS))
+
 # Image names
 IMAGE_NAME := llama-cpp-$(ROCM_GPU_ARCH)
 EXPORT_DIR := ./images
@@ -25,6 +28,7 @@ help: ## Show this help message
 
 build: ## Build the Docker image
 	docker build \
+		$(if $(NO_CACHE),--no-cache,) \
 		--build-arg ROCM_VERSION=$(ROCM_VERSION) \
 		--build-arg UBUNTU_VERSION=$(UBUNTU_VERSION) \
 		--build-arg ROCM_GPU_ARCH=$(ROCM_GPU_ARCH) \
@@ -37,7 +41,6 @@ minimal: ## Create minimal image (~1.4GB) using Dockerfile.minimal
 		--build-arg ROCM_VERSION=$(ROCM_PATH_VERSION) \
 		--build-arg ROCM_GPU_ARCH=$(ROCM_GPU_ARCH) \
 		-t $(MINIMAL_IMAGE_NAME) .
-
 
 save-minimal-image: ## Save the minimal image to disk (uncompressed)
 	@mkdir -p $(EXPORT_DIR)

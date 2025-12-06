@@ -59,10 +59,16 @@ As you add your own specific model run scripts you can list them by running `mak
 
 ```sh
 export ROCM_GPU_ARCH=gfx1100  # 7900xtx
-export USE_ORIGINAL_IMAGE=1
-make build
+# Build without cache to force rebuild
+make build NO_CACHE
 ```
 This will take a long time.
+
+You can force Docker to rebuild without cache by adding the `NO_CACHE` goal, e.g.,
+```sh
+make build NO_CACHE
+```
+
 
 ## Help
 

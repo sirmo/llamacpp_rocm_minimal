@@ -5,7 +5,7 @@
 
 # Model settings
 # Auto-detect model path (supports both direct mount and symlink resolution)
-MODEL_BASE_PATH="${MODEL_BASE_PATH:-/home/md/lmodels}"
+MODEL_BASE_PATH="${MODEL_BASE_PATH:-/models}"
 MODEL_PATH="${MODEL_BASE_PATH}/cerebras_MiniMax-M2-REAP-162B-A10B-Q3_K_M-00001-of-00002.gguf"
 PORT=5001
 HOST="0.0.0.0"

@@ -10,7 +10,7 @@ PORT=5001
 HOST="0.0.0.0"
 
 # Context and batch settings
-CONTEXT_SIZE=118000
+CONTEXT_SIZE=128000
 BATCH_SIZE=128
 
 # Thread settings

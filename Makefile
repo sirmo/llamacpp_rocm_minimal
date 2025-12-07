@@ -12,7 +12,13 @@ EXPORT_DIR := ./images
 MODEL_BASE_PATH ?= /models
 
 # Build arguments
+LLAMACPP_BRANCH ?= master
+LLAMACPP_FORK_URL ?= https://github.com/ggml-org/llama.cpp.git
 ROCM_VERSION ?= 7.1.1.70101-1
+
+# Import environment overrides if set
+export LLAMACPP_BRANCH
+export LLAMACPP_FORK_URL
 ROCM_PATH_VERSION ?= 7.1.1
 UBUNTU_VERSION ?= jammy
 
@@ -32,6 +38,8 @@ build: ## Build the Docker image
 		--build-arg ROCM_VERSION=$(ROCM_VERSION) \
 		--build-arg UBUNTU_VERSION=$(UBUNTU_VERSION) \
 		--build-arg ROCM_GPU_ARCH=$(ROCM_GPU_ARCH) \
+		--build-arg LLAMACPP_BRANCH=${LLAMACPP_BRANCH} \
+		--build-arg LLAMACPP_FORK_URL=${LLAMACPP_FORK_URL} \
 		-t $(IMAGE_NAME) .
 
 minimal: ## Create minimal image (~1.4GB) using Dockerfile.minimal

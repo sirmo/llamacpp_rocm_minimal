@@ -21,7 +21,7 @@ export MODEL_BASE_PATH=/models
 git clone git@github.com:sirmo/llamacpp_rocm_minimal.git
 ```
 
-```
+```sh
 cd llamacpp_rocm_minimal
 ```
 
@@ -54,7 +54,6 @@ See directory `run/` which has some sample run scripts for different models. You
 
 As you add your own specific model run scripts you can list them by running `make list`.
 
-
 ## Build Your Own Docker Image
 
 ```sh
@@ -69,14 +68,11 @@ You can force Docker to rebuild without cache by adding the `NO_CACHE` goal, e.g
 make build NO_CACHE
 ```
 
-
 ## Help
 
 ```sh
 make help
-
-Usage: make [target]
-
+```
 Usage: make [target]
 
 Available targets:
@@ -103,51 +99,21 @@ Available targets:
   all                  Build, create minimal image, save it
 ```
 
-# Gotchas
-
-Location of the runfiles for the ROCm installer is approximately here:
-
-https://repo.radeon.com/rocm/installer/rocm-runfile-installer/rocm-rel-7.1/ubuntu/22.04/
-
-These versions change so this link may not work in the future. But you can always navigate to the latest version by backtracking.
-
-Over time:
-
-- `ROCM_VERSION` and `ROCM_PATH_VERSION` will have to be updated
-
-- Dockerfile may need updates as new versions of ROCm come out
-
 ---
 
 ## Environment Variables
 
-This section documents all environment variables used throughout the Makefile, Dockerfiles, and run_wrapper.sh script.
+This section documents all environment variables used throughout the Makefile, Dockerfiles, and `run_wrapper.sh` script.
 
 ### Build-time Configuration (Makefile)
 
 These variables control the build process and can be set when running make commands:
 
-- **`ROCM_GPU_ARCH`** (default: `gfx1151`)
-  - AMD GPU architecture target for compilation
-  - Used in: Makefile line 2, Docker build args
-  - Example: `export ROCM_GPU_ARCH=gfx1100` for 7900xtx
-
-- **`MODEL_BASE_PATH`** (default: `/models`)
-  - Base directory path where model files are stored
-  - Used in: Makefile line 9, run_wrapper.sh line 23
-  - Example: `export MODEL_BASE_PATH=/path/to/my/models`
-
-- **`ROCM_VERSION`** (default: `7.1.1.70101-1`)
-  - ROCm software version for the build
-  - Used in: Makefile line 12, Dockerfile ARG
-
-- **`ROCM_PATH_VERSION`** (default: `7.1.1`)
-  - Simplified ROCm version path identifier
-  - Used in: Makefile line 13, Dockerfile.minimal
-
-- **`UBUNTU_VERSION`** (default: `jammy`)
-  - Ubuntu distribution version for the base image
-  - Used in: Makefile line 14, Dockerfile ARG
+- **`ROCM_GPU_ARCH`** (default: `gfx1151`) – AMD GPU architecture target for compilation.
+- **`MODEL_BASE_PATH`** (default: `/models`) – Base directory path where model files are stored.
+- **`ROCM_VERSION`** (default: `7.1.1.70101-1`) – ROCm software version for the build.
+- **`ROCM_PATH_VERSION`** (default: `7.1.1`) – Simplified ROCm version path identifier.
+- **`UBUNTU_VERSION`** (default: `jammy`) – Ubuntu distribution version for the base image.
 
 ### Runtime Environment Variables (Docker Images)
 
@@ -155,67 +121,28 @@ These variables are set within the Docker containers:
 
 #### Main Dockerfile (`llama-cpp-${ROCM_GPU_ARCH}`)
 
-- **`DEBIAN_FRONTEND=noninteractive`**
-  - Prevents interactive prompts during package installation
-  - Set in: Dockerfile line 18
-
-- **`TZ=America/New_York`**
-  - Container timezone setting
-  - Set in: Dockerfile line 19
-
-- **`PATH="/opt/rocm/bin:${PATH}"`**
-  - Adds ROCm binaries to system PATH
-  - Set in: Dockerfile line 22
-
-- **`LD_LIBRARY_PATH="/opt/rocm/lib"`**
-  - ROCm library search path
-  - Set in: Dockerfile line 23
+- **`DEBIAN_FRONTEND=noninteractive`** – Prevents interactive prompts during package installation.
+- **`TZ=America/New_York`** – Container timezone setting.
+- **`PATH="/opt/rocm/bin:${PATH}"`** – Adds ROCm binaries to system PATH.
+- **`LD_LIBRARY_PATH="/opt/rocm/lib"`** – ROCm library search path.
 
 #### Minimal Dockerfile (`llamacpp_rocm_${ROCM_GPU_ARCH}.minimal`)
 
-- **`LD_LIBRARY_PATH=/app/llama.cpp/build/bin:/opt/rocm/lib:/opt/amdgpu/lib/x86_64-linux-gnu:/lib/x86_64-linux-gnu`**
-  - Comprehensive library path for minimal image
-  - Set in: Dockerfile.minimal line 110
-
-- **`ROCM_PATH=/opt/rocm`**
-  - ROCm installation base path
-  - Set in: Dockerfile.minimal line 111
-
-- **`HSA_OVERRIDE_GFX_VERSION=11.5.1`**
-  - HSA runtime gfx version override (for compatibility)
-  - Set in: Dockerfile.minimal line 112
-
-- **`ROCBLAS_TENSILE_LIBPATH=/opt/rocm/lib/rocblas/library`**
-  - rocBLAS Tensile library path
-  - Set in: Dockerfile.minimal line 113
-
-- **`HSA_ENABLE_SDMA=0`**
-  - Disable SDMA for memory management
-  - Set in: Dockerfile.minimal line 115
-
-- **`GPU_MAX_ALLOC_PERCENT=100`**
-  - Maximum GPU memory allocation percentage
-  - Set in: Dockerfile.minimal line 116
-
-- **`GPU_SINGLE_ALLOC_PERCENT=100`**
-  - Single allocation maximum percentage
-  - Set in: Dockerfile.minimal line 117
+- **`LD_LIBRARY_PATH=/app/llama.cpp/build/bin:/opt/rocm/lib:/opt/amdgpu/lib/x86_64-linux-gnu:/lib/x86_64-linux-gnu`** – Comprehensive library path for minimal image.
+- **`ROCM_PATH=/opt/rocm`** – ROCm installation base path.
+- **`HSA_OVERRIDE_GFX_VERSION=11.5.1`** – HSA runtime gfx version override (for compatibility).
+- **`ROCBLAS_TENSILE_LIBPATH=/opt/rocm/lib/rocblas/library`** – rocBLAS Tensile library path.
+- **`HSA_ENABLE_SDMA=0`** – Disable SDMA for memory management.
+- **`GPU_MAX_ALLOC_PERCENT=100`** – Maximum GPU memory allocation percentage.
+- **`GPU_SINGLE_ALLOC_PERCENT=100`** – Single allocation maximum percentage.
 
 ### Runtime Configuration (run_wrapper.sh)
 
 These variables control container execution:
 
-- **`MODEL_BASE_PATH`** (default: `/models`)
-  - Override for model directory path
-  - Used in: run_wrapper.sh line 23, passed to Docker with `-e`
-
-- **`USE_ORIGINAL_IMAGE`** (default: `0`)
-  - Set to `1` to use the full image instead of minimal
-  - Used in: run_wrapper.sh line 26
-
-- **`SKIP_PORT`** (default: `0`)
-  - Set to `1` to skip port binding (`-p 5001:5001`)
-  - Used in: run_wrapper.sh lines 46, 59
+- **`MODEL_BASE_PATH`** (default: `/models`) – Override for model directory path.
+- **`USE_ORIGINAL_IMAGE`** (default: `0`) – Set to `1` to use the full image instead of minimal.
+- **`SKIP_PORT`** (default: `0`) – Set to `1` to skip port binding (`-p 5001:5001`).
 
 ### Usage Examples
 
@@ -240,4 +167,5 @@ make run gpt-oss-20B
 ---
 
 ## Contributing & License
+
 Feel free to open issues or submit pull requests for improvements. The Dockerfiles and scripts are provided under the MIT license.

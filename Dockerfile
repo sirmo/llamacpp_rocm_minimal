@@ -54,7 +54,9 @@ FROM rocm-base AS builder
 WORKDIR /app
 
 # Clone llama.cpp repository
-RUN git clone https://github.com/ggml-org/llama.cpp.git /app/llama.cpp
+ARG LLAMACPP_BRANCH=master
+ARG LLAMACPP_FORK_URL=https://github.com/ggml-org/llama.cpp.git
+RUN git clone --branch ${LLAMACPP_BRANCH} ${LLAMACPP_FORK_URL} /app/llama.cpp
 
 WORKDIR /app/llama.cpp
 

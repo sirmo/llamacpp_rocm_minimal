@@ -5,7 +5,7 @@
 
 # Model settings
 # Auto-detect model path (supports both direct mount and symlink resolution)
-MODEL_BASE_PATH="${MODEL_BASE_PATH:-/home/md/models}"
+MODEL_BASE_PATH="${MODEL_BASE_PATH:-/models}"
 MODEL_PATH="${MODEL_BASE_PATH}/Qwen3-Coder-30B-A3B-Instruct-UD-Q3_K_XL.gguf"
 PORT=5001
 HOST="0.0.0.0"

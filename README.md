@@ -73,6 +73,8 @@ make build NO_CACHE
 ```sh
 make help
 ```
+
+```text
 Usage: make [target]
 
 Available targets:

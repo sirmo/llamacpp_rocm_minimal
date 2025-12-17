@@ -48,7 +48,6 @@ cd /app/llama.cpp/build/bin
   --repeat-penalty ${FREQUENCY_PENALTY} \
   --no-mmap \
   --jinja \
-  --model-draft ${MODEL_BASE_PATH}/openai_gpt-oss-20b-MXFP4.gguf \
   -v \
   --n-predict -1 \
   --flash-attn on \

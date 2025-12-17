@@ -66,6 +66,7 @@ RUN mkdir build && cd build && \
     -DBUILD_SHARED_LIBS=OFF \
     -DGGML_HIP=ON \
     -DLLAMA_HIP_UMA=ON \
+    -DGGML_HIP_ROCWMMA_FATTN=ON \
     -DCMAKE_C_COMPILER=/opt/rocm/llvm/bin/clang \
     -DCMAKE_CXX_COMPILER=/opt/rocm/llvm/bin/clang++ \
     -DAMDGPU_TARGETS=${ROCM_GPU_ARCH} \
